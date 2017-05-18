@@ -79,13 +79,25 @@ void setup()
   digitalWrite(19, LOW);
 
   vol.begin(); // After calling this, delay() and delayMicroseconds will no longer work
-               // correctly! Instead, use vol.delay() and vol.delayMicroseconds() for
+               // correctly! Instead, use blinkDelay() and vol.delayMicroseconds() for
                // the correct timing
 
   vol.setMasterVolume(1.00); // Self-explanatory enough, right? Try lowering this value if the speaker is too loud! (0.00 - 1.00)
   randomSeed(analogRead(0));
   attachInterrupt(0, wakeUpNow, LOW); // use interrupt 0 (pin 2) and run function wakeUpNow when pin 2 gets LOW  
-  //vol.delay(500);
+  //blinkDelay(500);
+}
+
+void blinkDelay(int delayTime) {
+
+  if ( digitalRead(13)) {
+    digitalWrite(13, LOW);
+  } else {
+    digitalWrite(13, HIGH);
+  }
+  
+  vol.delay(delayTime);
+
 }
 
 void loop()
@@ -145,7 +157,7 @@ void loop()
         laugh();
         break;
     }
-    vol.delay(500);
+    blinkDelay(500);
     digitalWrite(13, LOW); //LED off
   }
   sleepNow();     // sleep function called here  
@@ -183,11 +195,11 @@ void wakeUpNow() {
 /*
 void gameboy(){
   vol.tone(1025,255); // pa
-  vol.delay(70);
+  blinkDelay(70);
   int v = 255;
   while(v > 0){
     vol.tone(2090,v); // ting!
-    vol.delay(3);
+    blinkDelay(3);
     v--;
   }
 }
@@ -199,23 +211,23 @@ void wolfWhistle() {
     vol.tone(f, v);
     v = 255 * (f / 4000.00);
     f += 25;
-    vol.delay(1);
+    blinkDelay(1);
   }
   vol.noTone();
-  vol.delay(100); // wait a moment
+  blinkDelay(100); // wait a moment
   f = 122; // starting frequency
   v = 0;   // starting volume
   while (f < 3000) { // slide up to 3000Hz
     vol.tone(f, v);
     v = 255 * (f / 4000.00); 
     f += 25;
-    vol.delay(2);
+    blinkDelay(2);
   }
   while (f > 125) { // slide down to 125Hz
     vol.tone(f, v);
     v = 255 * (f / 4000.00);
     f -= 25;
-    vol.delay(2);
+    blinkDelay(2);
   }
   vol.noTone(); // end tone production
 }
@@ -227,13 +239,13 @@ void wolfWhistle2() {
     vol.tone(f, v);
     v = 255 * (f / 4000.00); 
     f += 25;
-    vol.delay(2);
+    blinkDelay(2);
   }
   while (f > 1500) { // slide down
     vol.tone(f, v);
     v = 255 * (f / 4000.00);
     f -= 25;
-    vol.delay(2);
+    blinkDelay(2);
   }
   f = 1495; // starting frequency
   v = 0;   // starting volume
@@ -241,7 +253,7 @@ void wolfWhistle2() {
     vol.tone(f, v);
     v = 255 * (f / 4000.00);
     f += 25;
-    vol.delay(1);
+    blinkDelay(1);
   }
   vol.noTone(); // end tone production
 }
@@ -254,13 +266,13 @@ void sadR2() {  //or missile crash, dunno...
     vol.tone(f, v);
     v = 255 * (f / 4000.00); 
     f += 25;
-    vol.delay(3);
+    blinkDelay(3);
   }
   while (f > 330) { // slide down 
     vol.tone(f, v);
     v = 255 * (f / 4000.00);
     f -= 5;
-    vol.delay(10);
+    blinkDelay(10);
   }
 
   int i = 19;
@@ -288,7 +300,7 @@ void R2D2_2() {
     i--;
   }
 
-  vol.delay(35);
+  blinkDelay(35);
 
   i = 0;
   while (i < 8) {
@@ -298,7 +310,7 @@ void R2D2_2() {
       v += 10;
       vol.delayMicroseconds(2);
     }
-    vol.delay(20);
+    blinkDelay(20);
     v = 250;
     while (v > 0) { // 12.5 mS fade down time
       vol.tone(beeps[8-i], v);
@@ -306,7 +318,7 @@ void R2D2_2() {
       vol.delayMicroseconds(5);
     }
     vol.noTone();
-    vol.delay(35);
+    blinkDelay(35);
     i++;
   }
 
@@ -332,12 +344,12 @@ void R2D2_3() {
     vol.delayMicroseconds(40);
     i--;
   }
-  vol.delay(35);
+  blinkDelay(35);
   int f = 2466;
   while (f < 2825) {
     vol.tone(f, 255);
     f += 3;
-    vol.delay(1);
+    blinkDelay(1);
   }
   f = 2825;
   int v = 255;
@@ -345,10 +357,10 @@ void R2D2_3() {
     vol.tone(f, v);
     f -= 6;
     v -= 1;
-    vol.delay(1);
+    blinkDelay(1);
   }
   vol.noTone();
-  vol.delay(35);
+  blinkDelay(35);
 
   i = 0;
   while (i < 8) {
@@ -363,7 +375,7 @@ void R2D2_3() {
       v += 10;
       vol.delayMicroseconds(2);
     }
-    vol.delay(20);
+    blinkDelay(20);
     v = 250;
     while (v > 0) { // 12.5 mS fade down time
       vol.tone(beeps[i], v);
@@ -371,7 +383,7 @@ void R2D2_3() {
       vol.delayMicroseconds(5);
     }
     vol.noTone();
-    vol.delay(35);
+    blinkDelay(35);
     i++;
   }
 
@@ -397,7 +409,7 @@ void R2D2_4() {
     vol.delayMicroseconds(40);
     i--;
   }
-  vol.delay(35);
+  blinkDelay(35);
   
   i = 0;
   while (i < 8) {
@@ -412,7 +424,7 @@ void R2D2_4() {
       v += 10;
       vol.delayMicroseconds(2);
     }
-    vol.delay(20);
+    blinkDelay(20);
     v = 250;
     while (v > 0) { // 12.5 mS fade down time
       vol.tone(beeps[i], v);
@@ -420,7 +432,7 @@ void R2D2_4() {
       vol.delayMicroseconds(5);
     }
     vol.noTone();
-    vol.delay(35);
+    blinkDelay(35);
     i++;
   }
 
@@ -449,7 +461,7 @@ void R2D2_5() {
     i--;
   }
 
-  vol.delay(35);
+  blinkDelay(35);
   
   i = 0;
   while (i < 8) {
@@ -465,7 +477,7 @@ void R2D2_5() {
       v += 10;
       vol.delayMicroseconds(2);
     }
-    vol.delay(20);
+    blinkDelay(20);
     v = 250;
     while (v > 0) { // 12.5 mS fade down time
       vol.tone(beeps[i], v);
@@ -473,7 +485,7 @@ void R2D2_5() {
       vol.delayMicroseconds(5);
     }
     vol.noTone();
-    vol.delay(35);
+    blinkDelay(35);
     i++;
   }
 
@@ -481,7 +493,7 @@ void R2D2_5() {
   while (f < 2825) {
     vol.tone(f, 255);
     f += 3;
-    vol.delay(1);
+    blinkDelay(1);
   }
   f = 2825;
   int v = 255;
@@ -489,10 +501,10 @@ void R2D2_5() {
     vol.tone(f, v);
     f -= 6;
     v -= 1;
-    vol.delay(1);
+    blinkDelay(1);
   }
   vol.noTone();
-  vol.delay(35);
+  blinkDelay(35);
 
   i = 10;
   while (i > 0) {
@@ -518,7 +530,7 @@ void R2D2() {
     i--;
   }
 
-  vol.delay(35);
+  blinkDelay(35);
 
   i = 0;
   while (i < 8) {
@@ -528,7 +540,7 @@ void R2D2() {
       v += 10;
       vol.delayMicroseconds(2);
     }
-    vol.delay(20);
+    blinkDelay(20);
     v = 250;
     while (v > 0) { // 12.5 mS fade down time
       vol.tone(beeps[i], v);
@@ -536,7 +548,7 @@ void R2D2() {
       vol.delayMicroseconds(5);
     }
     vol.noTone();
-    vol.delay(35);
+    blinkDelay(35);
     i++;
   }
 
@@ -544,7 +556,7 @@ void R2D2() {
   while (f < 2825) {
     vol.tone(f, 255);
     f += 3;
-    vol.delay(1);
+    blinkDelay(1);
   }
   f = 2825;
   int v = 255;
@@ -552,10 +564,10 @@ void R2D2() {
     vol.tone(f, v);
     f -= 6;
     v -= 1;
-    vol.delay(1);
+    blinkDelay(1);
   }
   vol.noTone();
-  vol.delay(35);
+  blinkDelay(35);
 
   i = 10;
   while (i > 0) {
@@ -573,12 +585,12 @@ void squeak() {
   int v = 220;
   for (int i=100; i<5000; i=i*1.45) { 
     vol.tone(i,v);
-    vol.delay(60);
+    blinkDelay(60);
   }
-  vol.delay(10);
+  blinkDelay(10);
   for (int i=100; i<6000; i=i*1.5) {
     vol.tone(i,v);
-    vol.delay(20);
+    blinkDelay(20);
   }
   vol.noTone();
 }
@@ -588,12 +600,12 @@ void ohhh() {
   for (int i=1000; i<2000; i=i*1.02) {
     v = 255 * (i / 4000.00);
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
   for (int i=2000; i>1000; i=i*.98) {
     v = 255 * (i / 4000.00);
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
   vol.noTone();
 }
@@ -603,13 +615,13 @@ void uhoh() {
   for (int i=1000; i<1244; i=i*1.01) {
     v = 255 * (i / 4000.00);
     vol.tone(i,v);
-    vol.delay(30);
+    blinkDelay(30);
   }
   delay(200);
   for (int i=1244; i>1108; i=i*.99) {
     v = 255 * (i / 4000.00);
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
   vol.noTone();
 }
@@ -619,43 +631,43 @@ void waka() {
   int v = 120;
   for (int i=1000; i<3000; i=i*1.05) {
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
   vol.noTone();
-  vol.delay(100);
+  blinkDelay(100);
   for (int i=2000; i>1000; i=i*.95) {
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
     for (int i=1000; i<3000; i=i*1.05) {
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
   vol.noTone();
-  vol.delay(100);
+  blinkDelay(100);
   for (int i=2000; i>1000; i=i*.95) {
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
     for (int i=1000; i<3000; i=i*1.05) {
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
   vol.noTone();
-  vol.delay(100);
+  blinkDelay(100);
   for (int i=2000; i>1000; i=i*.95) {
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
     for (int i=1000; i<3000; i=i*1.05) {
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
   vol.noTone();
-  vol.delay(100);
+  blinkDelay(100);
   for (int i=2000; i>1000; i=i*.95) {
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
   vol.noTone();
 }
@@ -664,52 +676,52 @@ void laugh() {
   int v = 170;
   for (int i=1000; i<2000; i=i*1.10) {
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
   vol.noTone();
-  vol.delay(50);
+  blinkDelay(50);
   for (int i=1000; i>500; i=i*.90) {
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
   vol.noTone();
-  vol.delay(50);
+  blinkDelay(50);
   for (int i=1000; i<2000; i=i*1.10) {
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
   vol.noTone();
-  vol.delay(50);
+  blinkDelay(50);
   for (int i=1000; i>500; i=i*.90) {
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
   vol.noTone();
-  vol.delay(50);
+  blinkDelay(50);
     for (int i=1000; i<2000; i=i*1.10) {
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
   vol.noTone();
-  vol.delay(50);
+  blinkDelay(50);
   for (int i=1000; i>500; i=i*.90) {
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
   vol.noTone();
-  vol.delay(50);
+  blinkDelay(50);
     for (int i=1000; i<2000; i=i*1.10) {
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
   vol.noTone();
-  vol.delay(50);
+  blinkDelay(50);
   for (int i=1000; i>500; i=i*.90) {
     vol.tone(i,v);
-    vol.delay(10);
+    blinkDelay(10);
   }
   vol.noTone();
-  vol.delay(50);
+  blinkDelay(50);
 }
 
 /*
@@ -720,31 +732,31 @@ void jetsons() {
   while(v > 0){
     vol.tone(f,v);
     v-=2;
-    vol.delay(1);
+    blinkDelay(1);
   }
-  vol.delay(250);
+  blinkDelay(250);
   f = 831;           // GEORGE
    v = 254;
   while(v > 0){
     vol.tone(f,v);
     v-=2;
-    vol.delay(1);
+    blinkDelay(1);
   }
-  vol.delay(250);
+  blinkDelay(250);
   f = 932;           // JET
   v = 254;
   while(v > 0){
     vol.tone(f,v);
     v-=2;
-    vol.delay(1);
+    blinkDelay(1);
   }
-  vol.delay(50);
+  blinkDelay(50);
   f = 988;           // SON!
   v = 254;
   while(v > 32){
     vol.tone(f,v);
     v-=1;
-    vol.delay(2);
+    blinkDelay(2);
   }
   delay(250);
   int fadeV = 1;
@@ -767,7 +779,7 @@ void jetsons() {
       fadeV = 1;
     }
 
-    vol.delay(1);
+    blinkDelay(1);
   }
 
   int i = 8000;
@@ -798,7 +810,7 @@ void jetsons() {
     if(i % 4 == 0){
       f-=1;
     }
-    vol.delay(1);
+    blinkDelay(1);
     i--;
   }
   vol.noTone();
